@@ -1,0 +1,296 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define max 100
+
+int a, b;
+void gcd();
+
+void fibo();
+int number, f = 0, s = 1, next;
+
+void odd();
+int oddn;
+
+void prime();
+int pr;
+
+char name[max][21];
+int g1[max], g2[max], g3[max];
+int ave[max];
+int total[max];
+int count = 0;
+int remarks[max];
+char nameloc[max];
+
+void show();
+void add();
+void delete();
+int isfull();
+int isempty();
+int locate();
+
+void menu();
+
+int main()
+{
+    menu();
+    system("pause");
+    return 0;
+}
+
+void gcd()
+{
+    system("cls");
+    printf("GCD CALCULATOR\n");
+    printf("Enter first number: ");
+    scanf("%d", &a);
+    printf("Enter second number: ");
+    scanf("%d", &b);
+
+    while (b != 0)
+    {
+        int rem = a % b;
+        a = b;
+        b = rem;
+    }
+    printf("%d", a);
+}
+
+void fibo()
+{
+    system("cls");
+    printf("FIBONACCI SEQUENCE\n");
+    printf("Enter number of terms: ");
+    scanf("%d", &number);
+
+    for (int i = 0; i < number; i++)
+    {
+        printf("%d ", f);
+        next = f + s;
+        f = s;
+        s = next;
+    }
+}
+
+void odd()
+{
+    system("cls");
+    printf("ODD NUMBERS\n");
+    printf("Enter a number: ");
+    scanf("%d", &oddn);
+
+    if (oddn % 2 == 1)
+    {
+        printf("%d is an odd number\n", oddn);
+    }
+    else
+        printf("%d is an even number\n", oddn);
+}
+
+void prime()
+{
+    system("cls");
+    printf("PRIME NUMBERS\n");
+    printf("Enter a number: ");
+    scanf("%d", &pr);
+
+    int isprime = 1;
+    if (pr <= 1)
+    {
+        printf("%d is not a Prime Number\n", pr);
+    }
+
+    for (int i = 2; i < pr; i++)
+    {
+        if (pr % i == 0)
+        {
+            isprime = 0;
+            break;
+        }
+    }
+    if (isprime == 1)
+    {
+        printf("%d is a prime number\n", pr);
+    }
+    else
+        printf("%d is not a prime number\n", pr);
+}
+
+void show()
+{
+    system("cls");
+    system("cls");
+    if (isempty() == 1)
+    {
+        printf("LIST EMPTY\n");
+        system("pause");
+    }
+    for (int i = 0; i < count; i++)
+    {
+        printf("%d). Name: %-10s Score 1: %-10d Score 2: %-10d Score 3: %-10d Total: %-10d Ave: %-10d Remarks: %-10s\n", i + 1, name[i], g1[i], g2[i], g3[i], total[i], ave[i], remarks[i] ? "PASSED" : "FAILED");
+    }
+}
+void add()
+{
+    char newname[21];
+
+    system("cls");
+
+    if (isfull())
+    {
+        printf("LIST IS FULL\n");
+        system("pause");
+        return;
+    }
+
+    printf("Enter Name: ");
+    getchar();                     // clear newline
+    scanf("%20[^\n]", newname);
+
+    if (nameExists(newname))
+    {
+        printf("Name already exists.\n");
+        system("pause");
+        return;
+    }
+
+    // copy name only after validation
+    strcpy(name[count], newname);
+
+    printf("Enter Grade No. 1: ");
+    scanf("%d", &g1[count]);
+
+    printf("Enter Grade No. 2: ");
+    scanf("%d", &g2[count]);
+
+    printf("Enter Grade No. 3: ");
+    scanf("%d", &g3[count]);
+
+    total[count] = g1[count] + g2[count] + g3[count];
+    ave[count] = total[count] / 3;
+    remarks[count] = (ave[count] >= 75);
+
+    count++;
+
+    printf("Record added successfully.\n");
+}
+
+void delete()
+{
+    system("cls");
+    if (isempty() == 1)
+    {
+        printf("Nothing to delete.\n");
+        system("pause");
+        return;
+    }
+    int pos;
+    show();
+    pos = locate();
+
+    if (pos == -1)
+    {
+        printf("\nNot Found\n");
+        return;
+    }
+    int newpos = pos - 1;
+    for (int i = newpos; i < count - 1; i++)
+    {
+        strcpy(name[i], name[i + 1]);
+        g1[i] = g1[i + 1];
+        g2[i] = g2[i + 1];
+        g3[i] = g3[i + 1];
+        total[i] = total[i + 1];
+        ave[i] = ave[i + 1];
+        remarks[i] = ave[i + 1];
+    }
+    printf("Deleted...");
+    count--;
+}
+
+int isfull()
+{
+    if (count == max)
+    {
+        return 1;
+    }
+    else
+        return 0;
+}
+int isempty()
+{
+    if (count == 0)
+    {
+        return 1;
+    }
+    else
+        return 0;
+}
+int locate()
+{
+    printf("Enter name to locate:");
+    scanf("%20[^\n]", nameloc);
+
+    for (int i = 0; i < count; i++)
+    {
+        if (strcmp(name[i], nameloc) == 0)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int nameExists(char newname[21])
+{
+    for (int i = 0; i < count; i++)
+    {
+        if (strcmp(name[i], newname) == 0)
+        {
+            return 1;  // found
+        }
+    }
+    return 0; // not found
+}
+
+void menu()
+{
+    system("cls");
+    int choice;
+    while (choice != 8) {
+        printf("MENU\n 1. GCD\n 2. FIBO\n 3. ODD\n 4. PRIME\n\n ARRAYS\n 5. SHOW\n 6. ADD\n 7. DELETE\n\n 8. EXIT\n");
+        printf("\nEnter Choice:");
+    scanf("%d", &choice);
+    getchar();
+    switch (choice)
+    {
+    case 1:
+        gcd();
+        break;
+    case 2:
+        fibo();
+        break;
+    case 3:
+        odd();
+        break;
+    case 4:
+        prime();
+        break;
+    case 5:
+        show();
+        break;
+    case 6:
+        add();
+        break;
+    case 7:
+        delete();
+        break;
+    case 8:
+        printf("Exiting the program\n");
+        break;
+        return;
+    }
+    system("pause");
+}
+}

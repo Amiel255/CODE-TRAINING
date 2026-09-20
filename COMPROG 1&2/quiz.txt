@@ -1,0 +1,4 @@
+mel chor, 25
+hud das, 30
+gas par, 15
+bal tzar, 33

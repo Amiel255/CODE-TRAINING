@@ -1,0 +1,10 @@
+Alphabetically Sorted Names:
+
+Bernie 100
+Clark 95
+Jane  78
+Rolly  89
+
+Highest Score: 100
+Lowest Score: 78
+Average Score: 90.5
