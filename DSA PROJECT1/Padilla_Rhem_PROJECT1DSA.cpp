@@ -246,10 +246,9 @@ string encryptPin(string pin)
     for (int i = 0; i < pin.length(); i++)
     {
         int digit = pin[i] - '0';
-        digit = (digit + 7 + i) % 10;
+        digit = (digit + 7 + i) % 10; 
         encrypted += char('0' + digit);
     }
-    // simple classroom encryption lang ito; hindi ito kapalit ng real security
     reverse(encrypted.begin(), encrypted.end()); // dito ginamit algo lib para sa simple encryption kasi nireverse
     return encrypted;
 }
