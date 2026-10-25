@@ -4,6 +4,8 @@ export function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
     <svg
       role="img"
+      width={16}
+      height={16}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
