@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+portfolio/node_modules/
+
+# Next.js build outputs
+.next/
+portfolio/.next/
+out/
+portfolio/out/
+
+# Build and environment artifacts
+*.tsbuildinfo
+*.log
+.env*.local
+
+# System files
+.DS_Store
+Thumbs.db
