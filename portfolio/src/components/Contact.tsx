@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Mail, Copy, Check, Send, ArrowUpRight, MessageSquare } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
+import { LinkedinIcon } from "@/components/icons/LinkedinIcon";
 import { PERSONAL_INFO } from "@/data/portfolioData";
 
 export function Contact() {
@@ -95,6 +96,29 @@ export function Contact() {
                 </div>
                 <ArrowUpRight className="w-4 h-4 text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-colors" />
               </a>
+
+              {/* LinkedIn Card */}
+              {PERSONAL_INFO.linkedin && (
+                <a
+                  href={PERSONAL_INFO.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 flex items-center justify-between gap-3 hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                      <LinkedinIcon className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-mono text-zinc-600 dark:text-zinc-400">LinkedIn Profile</div>
+                      <div className="text-xs sm:text-sm font-semibold text-zinc-900 dark:text-zinc-100 font-mono">
+                        Amiel Keith Padilla
+                      </div>
+                    </div>
+                  </div>
+                  <ArrowUpRight className="w-4 h-4 text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-colors" />
+                </a>
+              )}
             </div>
           </div>
 

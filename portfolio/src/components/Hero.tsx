@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ArrowDown, Mail, Copy, Check, ExternalLink } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
+import { LinkedinIcon } from "@/components/icons/LinkedinIcon";
 import { PERSONAL_INFO } from "@/data/portfolioData";
 import { TerminalPreview } from "./TerminalPreview";
 
@@ -131,6 +132,18 @@ export function Hero() {
               >
                 <GithubIcon className="w-4 h-4" />
               </a>
+
+              {PERSONAL_INFO.linkedin && (
+                <a
+                  href={PERSONAL_INFO.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-800/80 text-zinc-700 dark:text-zinc-200 transition-colors"
+                  aria-label="LinkedIn Profile"
+                >
+                  <LinkedinIcon className="w-4 h-4" />
+                </a>
+              )}
 
               <a
                 href={`mailto:${PERSONAL_INFO.email}`}

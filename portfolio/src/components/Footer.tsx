@@ -33,6 +33,16 @@ export function Footer() {
           >
             GitHub
           </a>
+          {PERSONAL_INFO.linkedin && (
+            <a
+              href={PERSONAL_INFO.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+            >
+              LinkedIn
+            </a>
+          )}
           <a
             href={`mailto:${PERSONAL_INFO.email}`}
             className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"

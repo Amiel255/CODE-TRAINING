@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
+import { LinkedinIcon } from "@/components/icons/LinkedinIcon";
 import { PERSONAL_INFO } from "@/data/portfolioData";
 
 export function Navbar() {
@@ -73,6 +74,18 @@ export function Navbar() {
           >
             <GithubIcon className="w-4 h-4" />
           </a>
+
+          {PERSONAL_INFO.linkedin && (
+            <a
+              href={PERSONAL_INFO.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn Profile"
+              className="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-300 transition-colors"
+            >
+              <LinkedinIcon className="w-4 h-4" />
+            </a>
+          )}
 
           <ThemeToggle />
 

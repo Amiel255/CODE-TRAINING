@@ -2,7 +2,7 @@ export interface Project {
   id: string;
   title: string;
   tagline: string;
-  category: "Systems & C++" | "Assembly" | "Algorithms & DSA";
+  category: "Systems & C++" | "Assembly" | "Algorithms & DSA" | "Game Dev & Graphics";
   period: string;
   description: string;
   highlights: string[];
@@ -26,6 +26,7 @@ export const PERSONAL_INFO = {
   status: "Open to Internships & Software Engineering Roles",
   email: "amielkeithpadilla5@gmail.com",
   github: "https://github.com/Amiel255",
+  linkedin: "https://www.linkedin.com/in/amiel-keith-padilla-6684a0381",
   facebook: "https://www.facebook.com/amielkeith.padilla",
   bio: "Passionate BSIT student and software developer specializing in systems programming, data structures, and computer architecture. Driven by low-level curiosity—from bitwise file compression and memory management in C++ to hardware interrupt routines in x86 Assembly, paired with modern web engineering.",
   about: [
@@ -199,6 +200,54 @@ double evaluateTree(TreeNode* root) {
     githubUrl: "https://github.com/Amiel255/CODE-TRAINING/tree/main/DSA",
     slug: "expression-tree-parser",
   },
+  {
+    id: "raylib-game-engine",
+    title: "Raylib 2D Game & Interactive Graphics Engine",
+    tagline: "High-performance C++ interactive game loop with Raylib, OpenGL & physics",
+    category: "Game Dev & Graphics",
+    period: "2025 - 2026",
+    description:
+      "An interactive 2D game and graphics application engineered in C++ using Raylib and OpenGL. Features custom game loop architecture, delta-time physics calculation, collision detection algorithms, and frame-rate independent sprite animation.",
+    highlights: [
+      "Custom frame-rate independent 60 FPS game loop utilizing raylib windowing and input polling",
+      "2D collision detection and vector physics routines (bounding box AABB & circle intersection)",
+      "Sprite rendering, asset management, and procedural graphics using hardware-accelerated OpenGL pipeline",
+      "Integrated build pipeline in VS Code leveraging MinGW, GCC, and raylib static linking",
+    ],
+    techStack: ["C++", "Raylib", "Game Development", "OpenGL", "Vector Physics", "VS Code"],
+    metrics: [
+      { label: "Target FPS", value: "60 FPS Locked" },
+      { label: "Graphics API", value: "OpenGL / Raylib" },
+      { label: "Architecture", value: "Delta-Time Loop" },
+    ],
+    codeSnippet: {
+      language: "cpp",
+      filename: "main.cpp",
+      code: `#include "raylib.h"
+
+int main() {
+    const int screenWidth = 800;
+    const int screenHeight = 450;
+    InitWindow(screenWidth, screenHeight, "Raylib Interactive Engine");
+    SetTargetFPS(60);
+
+    while (!WindowShouldClose()) {
+        // Delta-time physics update
+        float dt = GetFrameTime();
+        
+        // Render frame
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+        DrawText("Raylib Engine running at 60 FPS", 190, 200, 20, DARKGRAY);
+        EndDrawing();
+    }
+    CloseWindow();
+    return 0;
+}`,
+    },
+    githubUrl: "https://github.com/Amiel255/VSCODE-RAYLIB",
+    slug: "raylib-game-engine",
+  },
 ];
 
 export const SKILL_CATEGORIES = [
@@ -218,6 +267,7 @@ export const SKILL_CATEGORIES = [
     category: "Systems & Architecture",
     description: "Low-level computation and systems design",
     skills: [
+      { name: "Raylib & Game Physics", desc: "Frame-rate independent loops, OpenGL pipeline, 2D collisions" },
       { name: "Memory Management", desc: "Dynamic allocation, pointers, std::shared_ptr" },
       { name: "Hardware Interrupts", desc: "BIOS INT 10h, DOS INT 21h, 16-bit register execution" },
       { name: "Bitwise Operations", desc: "Bit streams, bitmasks, bit shifting, custom compression" },

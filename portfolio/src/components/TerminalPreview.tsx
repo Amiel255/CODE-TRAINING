@@ -102,7 +102,7 @@ export function TerminalPreview() {
           {
             id: `${Date.now()}-1`,
             type: "response",
-            text: `Email:  ${PERSONAL_INFO.email}\nGitHub: ${PERSONAL_INFO.github}\nWeb:    Available on this site`,
+            text: `Email:    ${PERSONAL_INFO.email}\nGitHub:   ${PERSONAL_INFO.github}\nLinkedIn: ${PERSONAL_INFO.linkedin}\nWeb:      Available on this site`,
           },
         ];
         break;
