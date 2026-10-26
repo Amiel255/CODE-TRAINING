@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Amiel Keith Padilla | Software Developer & BSIT Student",
+  title: "Amiel Keith Padilla | BSIT Student & Cybersecurity Core Lead",
   description:
-    "Portfolio of Amiel Keith Padilla — Systems programming, Algorithms, C++, x86 Assembly, and Modern Web Development.",
+    "Amiel Keith Padilla — BSIT student at the Technological University of the Philippines and Cybersecurity Core Lead at GDG on Campus TUP Manila. Explore systems, web, and HCI projects.",
 };
 
 export default function RootLayout({

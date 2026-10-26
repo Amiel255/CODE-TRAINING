@@ -25,6 +25,23 @@ const { chromium } = require("playwright");
       assert.ok(titles.includes(title), `Missing local project: ${title}`);
     }
     await page.locator("#about").getByText(String(titles.length), { exact: true }).waitFor();
+    await page.locator("#about").getByText("Caloocan City, National Capital Region, Philippines", { exact: true }).waitFor();
+    assert.deepEqual(await page.locator("#experience h3").allTextContents(), [
+      "Core Lead for Cybersecurity",
+      "Core Lead for Robotics and Automation",
+    ]);
+    await page.locator("#experience").getByText("September 2026 – Present", { exact: true }).waitFor();
+    await page.locator("#experience").getByText("September 2025 – September 2026", { exact: true }).waitFor();
+    await page.locator("#education").getByText("Technological University of the Philippines", { exact: true }).waitFor();
+    await page.locator("#education").getByText("2025 – 2029", { exact: true }).waitFor();
+    for (const name of ["Introduction to Python", "AI Ethics"]) {
+      await page.locator("#education").getByText(name, { exact: true }).waitFor();
+    }
+    for (const skill of ["Privacy and Data Protection", "Risk Assessment and Impact Evaluation", "Bias and Fairness Awareness"]) {
+      await page.locator("#skills").getByText(skill, { exact: true }).waitFor();
+    }
+    await page.locator("#experience").screenshot({ path: ".next/check-experience-desktop.png" });
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
     await page.getByRole("button", { name: "projects", exact: true }).click();
     const output = await page.getByRole("log").innerText();
     titles.forEach((title) => assert.ok(output.includes(title), `Terminal missing ${title}`));
@@ -111,19 +128,24 @@ const { chromium } = require("playwright");
     const theme = await page.evaluate(() => localStorage.getItem("theme"));
     await page.reload({ waitUntil: "networkidle" });
     assert.equal(await page.evaluate(() => document.documentElement.classList.contains("dark")), theme === "dark");
-    for (const width of [390, 320]) {
+    for (const width of [1440, 1024, 768, 390, 320]) {
       await page.setViewportSize({ width, height: 844 });
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `Overflow at ${width}px`);
     }
     await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
     await page.screenshot({ path: ".next/check-mobile.png" });
-    await page.getByRole("button", { name: "Toggle Navigation Menu" }).click();
-    await page.getByRole("navigation", { name: "Mobile navigation" }).getByRole("link", { name: "Skills", exact: true }).click();
-    assert.equal(await page.getByRole("button", { name: "Toggle Navigation Menu" }).getAttribute("aria-expanded"), "false");
     await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.getByRole("button", { name: "Toggle Navigation Menu" }).click();
+    await page.getByRole("navigation", { name: "Mobile navigation" }).getByRole("link", { name: "Experience", exact: true }).click();
+    assert.equal(await page.getByRole("button", { name: "Toggle Navigation Menu" }).getAttribute("aria-expanded"), "false");
+    await page.waitForFunction(() => {
+      const top = document.getElementById("experience").getBoundingClientRect().top;
+      return top >= 64 && top < 100;
+    });
+    await page.locator("#experience").screenshot({ path: ".next/check-experience-mobile.png" });
     assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior), "auto");
     assert.deepEqual(errors, [], "Browser runtime errors");
-    console.log("PASS: distinct project cards, source links, project count, terminal, filters, dialog focus/Escape/backdrop, clipboard, email draft, theme, mobile layout/navigation, reduced motion");
+    console.log("PASS: LinkedIn profile details, experience navigation, desktop/tablet/mobile layout, distinct project cards, source links, terminal, filters, dialog focus, clipboard, email draft, theme, reduced motion");
   } finally {
     await browser.close();
   }

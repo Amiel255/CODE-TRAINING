@@ -1,11 +1,13 @@
 "use client";
 
 import { SKILL_CATEGORIES } from "@/data/portfolioData";
-import { Cpu, Binary, Layers, Wrench } from "lucide-react";
+import { Cpu, Binary, Layers, Wrench, ShieldCheck } from "lucide-react";
 
 export function Skills() {
   const getCategoryIcon = (category: string) => {
     switch (category) {
+      case "Security & Responsible AI":
+        return <ShieldCheck className="w-4 h-4 text-emerald-500" />;
       case "Languages & Core":
         return <Binary className="w-4 h-4 text-emerald-500" />;
       case "Systems & Architecture":

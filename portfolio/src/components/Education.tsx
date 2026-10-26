@@ -1,6 +1,6 @@
 "use client";
 
-import { EDUCATION_DATA } from "@/data/portfolioData";
+import { CERTIFICATIONS, EDUCATION_DATA } from "@/data/portfolioData";
 import { GraduationCap, Award, BookOpen, CheckCircle2 } from "lucide-react";
 
 export function Education() {
@@ -14,7 +14,7 @@ export function Education() {
             Academic Path
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-            Education & Coursework
+            Education & Certifications
           </h2>
           <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1 max-w-xl">
             Formal studies in Information Technology focusing on computer programming foundations,
@@ -72,6 +72,17 @@ export function Education() {
               </div>
             </div>
           ))}
+        </div>
+        <div className="mt-10">
+          <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 mb-4">Certifications</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {CERTIFICATIONS.map((name) => (
+              <div key={name} className="flex items-center gap-3 p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/40">
+                <Award aria-hidden="true" className="w-5 h-5 shrink-0 text-emerald-600 dark:text-emerald-400" />
+                <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{name}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

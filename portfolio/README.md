@@ -20,6 +20,7 @@ A clean, modern, minimal portfolio site built with **Next.js 16 (App Router)** a
 - **Interactive Code Inspector Modal**: Inspect architecture details, metrics, and formatted source code snippets with 1-click copy.
 - **Technical Skills Matrix**: Categorized breakdown across Languages, Systems & Architecture, Data Structures & Algorithms, and Modern Web.
 - **Education & Milestones**: Formal BSIT academic journey, coursework, and focus areas.
+- **LinkedIn Background**: GDG on Campus TUP Manila leadership roles, TUP BSIT education (2025–2029), listed security/AI skills, and certifications from the supplied profile PDF. Certificate issuers and dates are omitted because the export does not include them.
 - **Contact & Direct Actions**: Email copy with success/error feedback, a form that opens a prefilled draft in the visitor's email app, and direct GitHub links. Visitors review and send the email themselves; the site does not claim delivery.
 
 ---

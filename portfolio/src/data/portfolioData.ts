@@ -21,14 +21,14 @@ export const PERSONAL_INFO = {
   name: "Amiel Keith Padilla",
   shortName: "Amiel",
   handle: "Amiel255",
-  title: "Software Developer & BSIT Student",
-  location: "Philippines",
+  title: "BSIT Student & Cybersecurity Core Lead",
+  location: "Caloocan City, National Capital Region, Philippines",
   status: "Open to Internships & Software Engineering Roles",
   email: "amielkeithpadilla5@gmail.com",
   github: "https://github.com/Amiel255",
   linkedin: "https://www.linkedin.com/in/amiel-keith-padilla-6684a0381",
   facebook: "https://www.facebook.com/amielkeith.padilla",
-  bio: "Passionate BSIT student and software developer specializing in systems programming, data structures, and computer architecture. Driven by low-level curiosity—from bitwise file compression and memory management in C++ to hardware interrupt routines in x86 Assembly, paired with modern web engineering.",
+  bio: "I'm a BSIT student at the Technological University of the Philippines and Core Lead for Cybersecurity at Google Developer Groups on Campus TUP Manila. My project work spans C++ systems programming, data structures, x86 Assembly, and modern web development, with an interest in privacy, risk assessment, and responsible AI.",
   about: [
     "I am an Information Technology student with a deep interest in software engineering, systems programming, and algorithmic problem-solving.",
     "My hands-on experience spans low-level x86 Assembly programming (BIOS/DOS interrupts, video memory), building high-performance C++ applications with custom memory management (Huffman compression, binary expression trees), and creating full-stack web applications.",
@@ -614,6 +614,15 @@ struct node {
 
 export const SKILL_CATEGORIES = [
   {
+    category: "Security & Responsible AI",
+    description: "Privacy, risk evaluation, and ethical technology",
+    skills: [
+      { name: "Privacy and Data Protection", desc: "Privacy considerations and protection of personal data" },
+      { name: "Risk Assessment and Impact Evaluation", desc: "Assessing risks and considering the effects of technology" },
+      { name: "Bias and Fairness Awareness", desc: "Recognizing bias and fairness considerations in AI" },
+    ],
+  },
+  {
     category: "Languages & Core",
     description: "Systems, object-oriented, and scripted languages",
     skills: [
@@ -661,11 +670,30 @@ export const SKILL_CATEGORIES = [
   },
 ];
 
+export const EXPERIENCE_DATA = [
+  {
+    role: "Core Lead for Cybersecurity",
+    organization: "Google Developer Groups on Campus TUP Manila",
+    period: "September 2026 – Present",
+    location: "Manila, National Capital Region, Philippines",
+    current: true,
+  },
+  {
+    role: "Core Lead for Robotics and Automation",
+    organization: "Google Developer Groups on Campus TUP Manila",
+    period: "September 2025 – September 2026",
+    location: "Manila, National Capital Region, Philippines",
+    current: false,
+  },
+];
+
+export const CERTIFICATIONS = ["Introduction to Python", "AI Ethics"];
+
 export const EDUCATION_DATA = [
   {
     degree: "Bachelor of Science in Information Technology (BSIT)",
-    institution: "Higher Education Degree",
-    period: "2025 - Present",
+    institution: "Technological University of the Philippines",
+    period: "2025 – 2029",
     status: "Currently Enrolled",
     description:
       "Comprehensive program encompassing software development, data structures, computer systems architecture, database management, and network fundamentals.",

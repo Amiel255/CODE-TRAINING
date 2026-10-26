@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDown, Mail, Copy, Check } from "lucide-react";
+import { ArrowDown, Mail, Copy, Check, MapPin } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
 import { LinkedinIcon } from "@/components/icons/LinkedinIcon";
 import { PERSONAL_INFO, PROJECTS } from "@/data/portfolioData";
@@ -35,6 +35,10 @@ export function Hero() {
               </h1>
               <p className="text-lg sm:text-xl font-medium text-zinc-600 dark:text-zinc-400">
                 {PERSONAL_INFO.title}
+              </p>
+              <p className="flex items-start gap-1.5 text-xs sm:text-sm text-zinc-500 dark:text-zinc-400">
+                <MapPin aria-hidden="true" className="w-4 h-4 shrink-0 mt-0.5" />
+                {PERSONAL_INFO.location}
               </p>
             </div>
 
