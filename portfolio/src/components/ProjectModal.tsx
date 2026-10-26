@@ -180,7 +180,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
         {/* Modal Footer */}
         <div className="px-6 py-4 border-t border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 flex items-center justify-between">
           <div className="text-xs text-zinc-600 dark:text-zinc-400 font-mono">
-            Source repository in CODE TRAINING
+            Project source and supporting files
           </div>
           <div className="flex items-center gap-2">
             {project.githubUrl && (
@@ -191,7 +191,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 text-xs font-medium hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors"
               >
                 <GithubIcon className="w-3.5 h-3.5" />
-                View Code on GitHub
+                View Source on GitHub
                 <ExternalLink className="w-3 h-3 ml-0.5" />
               </a>
             )}

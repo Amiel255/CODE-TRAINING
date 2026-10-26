@@ -3,7 +3,7 @@
 import { ArrowDown, Mail, Copy, Check } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
 import { LinkedinIcon } from "@/components/icons/LinkedinIcon";
-import { PERSONAL_INFO } from "@/data/portfolioData";
+import { PERSONAL_INFO, PROJECTS } from "@/data/portfolioData";
 import { TerminalPreview } from "./TerminalPreview";
 import { useClipboard } from "./useClipboard";
 
@@ -66,10 +66,10 @@ export function Hero() {
             <div className="grid grid-cols-3 gap-3 pt-3 border-t border-zinc-200/60 dark:border-zinc-800/80">
               <div className="p-2.5 rounded-xl bg-zinc-50/70 dark:bg-zinc-900/40 border border-zinc-200/60 dark:border-zinc-800/60">
                 <div className="text-lg sm:text-xl font-bold font-mono text-zinc-900 dark:text-zinc-100">
-                  9+
+                  {PROJECTS.length}
                 </div>
                 <div className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
-                  Systems & DSA Works
+                  Selected Projects
                 </div>
               </div>
               <div className="p-2.5 rounded-xl bg-zinc-50/70 dark:bg-zinc-900/40 border border-zinc-200/60 dark:border-zinc-800/60">

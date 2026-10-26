@@ -14,6 +14,9 @@ A clean, modern, minimal portfolio site built with **Next.js 16 (App Router)** a
   - **Bank & ATM Account System** (C++, Doubly Linked List, CSV persistence)
   - **x86 Bare-Metal Assembly Suite** (16-bit 8086, VGA Mode 13h graphics, traffic light controller)
   - **Binary Expression Tree & Syntax Parser** (C++, recursive arithmetic evaluator)
+  - **PanataanPH**: Donation-drive verification with local AI evidence extraction and human review; separate from the fitness HCI work.
+  - **HCI Fitness & Wellness Prototype** and **HCI Wireframe**: Separate implementation and design deliverables supported by the local `COMPROG 1&2/HCI WIREFRAME.make` archive.
+  - **Procedural 3D Maze Explorer**, **Arithmetic Quiz & Leaderboard**, **Sorted Student Records Manager**, and **Python JSON Records Manager**: Additional projects selected from local coursework.
 - **Interactive Code Inspector Modal**: Inspect architecture details, metrics, and formatted source code snippets with 1-click copy.
 - **Technical Skills Matrix**: Categorized breakdown across Languages, Systems & Architecture, Data Structures & Algorithms, and Modern Web.
 - **Education & Milestones**: Formal BSIT academic journey, coursework, and focus areas.

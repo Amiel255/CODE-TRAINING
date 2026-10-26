@@ -9,7 +9,7 @@ export function Projects() {
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const categories = ["All", "Systems & C++", "Assembly", "Algorithms & DSA", "Game Dev & Graphics", "Web & HCI"];
+  const categories = ["All", ...new Set(PROJECTS.map((project) => project.category))];
 
   const filteredProjects =
     activeCategory === "All"
@@ -30,8 +30,8 @@ export function Projects() {
               Featured Projects
             </h2>
             <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1 max-w-xl">
-              Authentic systems, data compression algorithms, and bare-metal assembly programs
-              developed during my computer science & software engineering training.
+              Systems programming, algorithms, games, web applications, and HCI design
+              from my academic work and collaborative projects.
             </p>
           </div>
 

@@ -20,10 +20,37 @@ const { chromium } = require("playwright");
     await page.screenshot({ path: ".next/check-desktop.png" });
     assert.equal(await page.evaluate(() => window.scrollY), 0, "Terminal must not scroll the page on load");
     const titles = await page.locator("#projects h3").allTextContents();
+    assert.equal(new Set(titles).size, titles.length, "Project cards must be distinct");
+    for (const title of ["Procedural 3D Maze Explorer", "Arithmetic Quiz & Leaderboard", "Sorted Student Records Manager", "Python JSON Records Manager"]) {
+      assert.ok(titles.includes(title), `Missing local project: ${title}`);
+    }
+    await page.locator("#about").getByText(String(titles.length), { exact: true }).waitFor();
     await page.getByRole("button", { name: "projects", exact: true }).click();
     const output = await page.getByRole("log").innerText();
     titles.forEach((title) => assert.ok(output.includes(title), `Terminal missing ${title}`));
     assert.equal(await page.evaluate(() => window.scrollY), 0, "Terminal commands must keep page position");
+
+    await page.getByRole("button", { name: "Web & HCI", exact: true }).click();
+    assert.deepEqual(await page.locator("#projects h3").allTextContents(), [
+      "PanataanPH — Donation Drive Verification",
+      "HCI Project — Fitness & Wellness Prototype",
+      "HCI Wireframe — Fitness & Wellness UX",
+    ]);
+    for (const [title, source, snippets] of [
+      ["PanataanPH — Donation Drive Verification", "https://github.com/strob3/panataanph-hackathon-2026", 0],
+      ["HCI Project — Fitness & Wellness Prototype", "https://github.com/Amiel255/CODE-TRAINING/blob/main/COMPROG%201%262/HCI%20WIREFRAME.make", 1],
+      ["HCI Wireframe — Fitness & Wellness UX", "https://github.com/Amiel255/CODE-TRAINING/blob/main/COMPROG%201%262/HCI%20WIREFRAME.make", 0],
+    ]) {
+      await page.getByRole("button", { name: `Inspect architecture: ${title}`, exact: true }).click();
+      const details = page.getByRole("dialog");
+      await details.getByRole("heading", { name: title, exact: true }).waitFor();
+      assert.equal(await details.getByRole("link", { name: "View Source on GitHub" }).getAttribute("href"), source);
+      assert.equal(await details.locator("pre").count(), snippets);
+      await page.keyboard.press("Escape");
+      await details.waitFor({ state: "detached" });
+    }
+    await page.getByRole("button", { name: "Python", exact: true }).click();
+    assert.deepEqual(await page.locator("#projects h3").allTextContents(), ["Python JSON Records Manager"]);
 
     await page.getByRole("button", { name: "Assembly", exact: true }).click();
     assert.equal(await page.getByRole("button", { name: "Assembly", exact: true }).getAttribute("aria-pressed"), "true");
@@ -96,7 +123,7 @@ const { chromium } = require("playwright");
     await page.emulateMedia({ reducedMotion: "reduce" });
     assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior), "auto");
     assert.deepEqual(errors, [], "Browser runtime errors");
-    console.log("PASS: terminal, filters, dialog focus/Escape/backdrop, clipboard, email draft, theme, mobile layout/navigation, reduced motion");
+    console.log("PASS: distinct project cards, source links, project count, terminal, filters, dialog focus/Escape/backdrop, clipboard, email draft, theme, mobile layout/navigation, reduced motion");
   } finally {
     await browser.close();
   }

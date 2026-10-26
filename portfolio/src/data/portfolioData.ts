@@ -2,7 +2,7 @@ export interface Project {
   id: string;
   title: string;
   tagline: string;
-  category: "Systems & C++" | "Assembly" | "Algorithms & DSA" | "Game Dev & Graphics" | "Web & HCI";
+  category: "Systems & C++" | "Assembly" | "Algorithms & DSA" | "Game Dev & Graphics" | "Web & HCI" | "Python";
   period: string;
   description: string;
   highlights: string[];
@@ -249,25 +249,49 @@ int main() {
     slug: "raylib-game-engine",
   },
   {
-    id: "panaataan-hackathon",
-    title: "Panataanph Fitness App — Hackathon 2026",
-    tagline: "Condition-aware fitness & wellness HCI prototype (React + Figma)",
+    id: "panataanph",
+    title: "PanataanPH — Donation Drive Verification",
+    tagline: "Verify before you give: local AI evidence extraction with human review",
     category: "Web & HCI",
     period: "2026",
     description:
-      "A full-featured HCI prototype and interactive wireframe for a mobile health & fitness app built during the Panataanph Hackathon 2026. Designed for accessibility-first, condition-aware personalization — targeting users with chronic conditions (asthma, joint pain, heart conditions) with calm, low-cognitive-load interfaces.",
+      "A collaborative hackathon web application helping Filipino donors inspect relief drives before donating. Combines a public campaign directory, local document extraction, transparent evidence-completeness scoring, and authorized human review.",
     highlights: [
-      "12+ mobile screens: Onboarding, Home, Activity Tracker, Weekly Planner, Progress, Wellness, Smart Route, Sync Center",
-      "Condition-based personalization engine routing users to appropriate exercise plans based on health profile",
-      "React Router browser-based SPA routing with PhoneShell wrapper for authentic mobile viewport simulation",
-      "Real-time activity state management with Zustand-style activityStore, GPX export for route tracking, and emergency modal system",
-      "Design system built on shadcn/ui, Radix UI primitives, MUI Material, and Tailwind CSS with calm sage/warm beige theme",
+      "Searchable campaign directory with organizer submissions, evidence uploads, and a reviewer dashboard",
+      "Local PDF/OCR extraction with pypdf and PaddleOCR, plus structured field extraction through Ollama and Qwen3",
+      "Deterministic 100-point evidence-completeness score; scores describe supporting evidence rather than predicting fraud",
+      "Human-controlled campaign approval, requests for additional information, and an audit trail of review decisions",
+      "React and TypeScript frontend paired with a FastAPI backend and SQLite persistence",
     ],
-    techStack: ["React", "TypeScript", "Vite", "Tailwind CSS", "Radix UI", "Figma", "React Router", "shadcn/ui"],
+    techStack: ["React", "TypeScript", "FastAPI", "Python", "SQLite", "PaddleOCR", "Ollama", "Docker"],
     metrics: [
-      { label: "Screens", value: "12+ Flows" },
-      { label: "Design Tool", value: "Figma + Code" },
-      { label: "Stack", value: "React + TS" },
+      { label: "Evidence Score", value: "100 Points" },
+      { label: "AI Runtime", value: "Local Ollama" },
+      { label: "Approval", value: "Human Review" },
+    ],
+    githubUrl: "https://github.com/strob3/panataanph-hackathon-2026",
+    slug: "panataanph",
+  },
+  {
+    id: "hci-fitness-prototype",
+    title: "HCI Project — Fitness & Wellness Prototype",
+    tagline: "Interactive mobile health flows with condition-aware personalization",
+    category: "Web & HCI",
+    period: "2026",
+    description:
+      "An interactive fitness and wellness HCI prototype preserved in the Figma Make archive. Explores supportive onboarding, activity tracking, progress, wellness, and profile flows. This academic prototype is separate from PanataanPH; tracking and emergency interactions are demonstrations.",
+    highlights: [
+      "Onboarding captures health conditions, activity preferences, goals, and emergency contact details",
+      "React Router organizes onboarding, home, activities, tracking, progress, wellness, and profile screens",
+      "PhoneShell and MainLayout components provide a mobile presentation with shared bottom navigation",
+      "Local profile persistence and simulated activity/emergency interactions demonstrate the intended user experience",
+      "Calm colors, empathetic language, and simplified screens prioritize low cognitive load",
+    ],
+    techStack: ["React", "TypeScript", "React Router", "Figma Make", "HCI", "Local Storage"],
+    metrics: [
+      { label: "Deliverable", value: "Prototype" },
+      { label: "Navigation", value: "5 Main Tabs" },
+      { label: "Focus", value: "Mobile UX" },
     ],
     codeSnippet: {
       language: "tsx",
@@ -277,20 +301,48 @@ int main() {
     path: '/',
     Component: PhoneShell,
     children: [
-      { path: 'onboarding',         Component: OnboardingScreen },
-      { path: 'activities/setup',   Component: ActivitySetupScreen },
-      { path: 'activities/track',   Component: ActivityTrackerScreen },
-      { path: 'activities/route',   Component: SmartRouteScreen },
-      { path: 'home',               Component: HomeScreen },
-      { path: 'progress',           Component: ProgressScreen },
-      { path: 'wellness',           Component: WellnessScreen },
-      { path: 'profile',            Component: ProfileScreen },
+      { index: true, Component: RootRedirect },
+      { path: 'onboarding', Component: OnboardingScreen },
+      { path: 'activities/track', Component: ActivityTrackerScreen },
+      {
+        Component: MainLayout,
+        children: [
+          { path: 'home', Component: HomeScreen },
+          { path: 'activities', Component: ActivitiesScreen },
+          { path: 'progress', Component: ProgressScreen },
+          { path: 'wellness', Component: WellnessScreen },
+          { path: 'profile', Component: ProfileScreen },
+        ],
+      },
     ],
   },
 ]);`,
     },
-    githubUrl: "https://github.com/strob3/panataanph-hackathon-2026",
-    slug: "panaataan-hackathon",
+    githubUrl: "https://github.com/Amiel255/CODE-TRAINING/blob/main/COMPROG%201%262/HCI%20WIREFRAME.make",
+    slug: "hci-fitness-prototype",
+  },
+  {
+    id: "hci-wireframe",
+    title: "HCI Wireframe — Fitness & Wellness UX",
+    tagline: "Figma Make design artifact documenting mobile screens and user journeys",
+    category: "Web & HCI",
+    period: "2026",
+    description:
+      "The design and wireframing deliverable for the fitness and wellness HCI work, presented separately from its interactive prototype. The archived Figma Make file preserves the canvas, preview, and design history for a calm, accessible mobile experience.",
+    highlights: [
+      "Documents onboarding, dashboard, activity, progress, wellness, and profile journeys",
+      "Explores thumb-friendly navigation, restrained information density, and supportive interface language",
+      "Includes condition selection and emergency-contact flows as part of the interaction design",
+      "Original HCI WIREFRAME.make artifact remains available in the coursework repository",
+    ],
+    techStack: ["Figma Make", "Wireframing", "Interaction Design", "Mobile UX", "HCI"],
+    metrics: [
+      { label: "Deliverable", value: "Wireframe" },
+      { label: "Format", value: ".make Archive" },
+      { label: "Focus", value: "User Journeys" },
+    ],
+    githubUrl: "https://github.com/Amiel255/CODE-TRAINING/blob/main/COMPROG%201%262/HCI%20WIREFRAME.make",
+    slug: "hci-wireframe",
   },
   {
     id: "hash-table-set-operations",
@@ -414,6 +466,149 @@ struct node {
     },
     githubUrl: "https://github.com/Amiel255/CODE-TRAINING/tree/main/DSA",
     slug: "usb-activity-bank-system",
+  },
+  {
+    id: "procedural-3d-maze",
+    title: "Procedural 3D Maze Explorer",
+    tagline: "First-person Raylib maze with recursive generation and fog of war",
+    category: "Game Dev & Graphics",
+    period: "Coursework",
+    description:
+      "A C and Raylib maze game that generates randomized layouts and lets players explore them in first person. Combines wall collision checks, a progressively revealed map, timed levels, and three difficulty settings.",
+    highlights: [
+      "Recursive backtracking carves maze passages using shuffled movement directions",
+      "First-person movement checks walls and attempts axis-separated movement when blocked",
+      "Seen-cell tracking reveals nearby maze areas while keeping unexplored sections hidden",
+      "Easy, medium, and hard modes adjust maze size, time limits, and reveal radius",
+      "Goal detection advances levels; keyboard controls toggle the map and mouse-look mode",
+    ],
+    techStack: ["C", "Raylib", "3D Graphics", "Recursive Backtracking", "Collision Detection"],
+    metrics: [
+      { label: "Levels", value: "3 Difficulties" },
+      { label: "Generation", value: "Recursive DFS" },
+      { label: "View", value: "First Person" },
+    ],
+    codeSnippet: {
+      language: "c",
+      filename: "BSIT1CPROECT1STSEM.C",
+      code: `void GenerateMazeRecursive(int sx, int sy) {
+    SetCell(sx, sy, CELL_EMPTY);
+    int dirs[4]; for (int i=0;i<4;i++) dirs[i]=i;
+    Shuffle(dirs, 4);
+    for (int i=0;i<4;i++) {
+        int d = dirs[i];
+        int nx = sx + ((d==1) - (d==3)) * 2;
+        int ny = sy + ((d==2) - (d==0)) * 2;
+        if (!IsInside(nx, ny)) continue;
+        if (CellAt(nx, ny) == CELL_WALL) {
+            int wx = sx + ((d==1) - (d==3));
+            int wy = sy + ((d==2) - (d==0));
+            SetCell(wx, wy, CELL_EMPTY);
+            GenerateMazeRecursive(nx, ny);
+        }
+    }
+}`,
+    },
+    githubUrl: "https://github.com/Amiel255/CODE-TRAINING/blob/main/COMPROG%201%262/BSIT1CPROECT1STSEM.C",
+    slug: "procedural-3d-maze",
+  },
+  {
+    id: "arithmetic-quiz-game",
+    title: "Arithmetic Quiz & Leaderboard",
+    tagline: "C and Python console game with player accounts and persistent scores",
+    category: "Game Dev & Graphics",
+    period: "Coursework",
+    description:
+      "An arithmetic practice game implemented in C and Python. Players register, log in, select an operation and difficulty, answer randomized questions, and compare saved scores through operation-specific and overall leaderboards.",
+    highlights: [
+      "Addition, subtraction, multiplication, and integer-division quizzes across three difficulty levels",
+      "Five-question rounds record percentage scores for each arithmetic operation",
+      "Insertion-sorted leaderboard ranks players by an individual operation or their overall average",
+      "Text-file persistence retains player accounts and scores between sessions",
+      "Python version uses dataclasses, IntEnum operation/difficulty types, and file-error handling",
+    ],
+    techStack: ["C", "Python", "Dataclasses", "Insertion Sort", "File I/O"],
+    metrics: [
+      { label: "Operations", value: "4 Modes" },
+      { label: "Difficulty", value: "3 Levels" },
+      { label: "Round", value: "5 Questions" },
+    ],
+    codeSnippet: {
+      language: "python",
+      filename: "projectTwo_BSIT1C_padilla.py",
+      code: `def get_score_value(player: Player, mode: int) -> float:
+    if mode == -1:
+        return sum(player.score) / 4.0
+    return player.score[mode]`,
+    },
+    githubUrl: "https://github.com/Amiel255/CODE-TRAINING/blob/main/COMPROG%201%262/projectTwo_BSIT1C_padilla.py",
+    slug: "arithmetic-quiz-game",
+  },
+  {
+    id: "sorted-student-records",
+    title: "Sorted Student Records Manager",
+    tagline: "C++ record CRUD with alphabetical insertion and CSV persistence",
+    category: "Algorithms & DSA",
+    period: "Coursework",
+    description:
+      "A menu-driven student record manager built around a fixed-capacity C++ array. Maintains student names and scores, supports insert/update/delete operations, and saves records to a CSV file for later sessions.",
+    highlights: [
+      "Alphabetical insertion locates the correct array position before storing a record",
+      "Class-based record management separates lookup, mutation, display, and persistence",
+      "CSV loading restores records when the Record object is constructed",
+      "Capacity checks and empty-list checks support a bounded collection of up to 100 students",
+    ],
+    techStack: ["C++", "OOP", "Array ADT", "CSV", "File Streams"],
+    metrics: [
+      { label: "Capacity", value: "100 Records" },
+      { label: "Ordering", value: "Alphabetical" },
+      { label: "Storage", value: "CSV" },
+    ],
+    codeSnippet: {
+      language: "cpp",
+      filename: "mp1.cpp",
+      code: `int Record::locatePos(string x)
+{
+    for (int i = 0; i <= last; i++)
+        if (x < student[i].name)
+            return i;
+    return last + 1;
+}`,
+    },
+    githubUrl: "https://github.com/Amiel255/CODE-TRAINING/blob/main/DSA/mp1.cpp",
+    slug: "sorted-student-records",
+  },
+  {
+    id: "python-json-records",
+    title: "Python JSON Records Manager",
+    tagline: "Object-oriented console CRUD with age sorting and JSON storage",
+    category: "Python",
+    period: "Coursework",
+    description:
+      "A Python console application for maintaining name and age records. Uses classes and a list of dictionaries to add, update, delete, and display entries, then persists the collection as JSON between sessions.",
+    highlights: [
+      "Person class provides record operations reused by the Student subclass",
+      "Adding or updating a record sorts entries by age in descending order",
+      "Formatted output labels each record as Adult or Minor",
+      "JSON save/load uses Python's standard library and handles missing or malformed storage files",
+    ],
+    techStack: ["Python", "OOP", "JSON", "File I/O", "Sorting"],
+    metrics: [
+      { label: "Operations", value: "CRUD" },
+      { label: "Storage", value: "JSON" },
+      { label: "Dependencies", value: "Stdlib Only" },
+    ],
+    codeSnippet: {
+      language: "python",
+      filename: "oop_record_jsonfh.py",
+      code: `def save_records(self):
+    with open("records.json", "w") as file:
+        json.dump(self.records, file, indent=4)
+
+    print("Records saved successfully.")`,
+    },
+    githubUrl: "https://github.com/Amiel255/CODE-TRAINING/blob/main/COMPROG%201%262/oop_record_jsonfh.py",
+    slug: "python-json-records",
   },
 ];
 
