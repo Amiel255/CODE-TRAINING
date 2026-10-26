@@ -17,7 +17,7 @@ A clean, modern, minimal portfolio site built with **Next.js 16 (App Router)** a
 - **Interactive Code Inspector Modal**: Inspect architecture details, metrics, and formatted source code snippets with 1-click copy.
 - **Technical Skills Matrix**: Categorized breakdown across Languages, Systems & Architecture, Data Structures & Algorithms, and Modern Web.
 - **Education & Milestones**: Formal BSIT academic journey, coursework, and focus areas.
-- **Contact & Direct Actions**: 1-click email copy, interactive message dialog, and direct GitHub links.
+- **Contact & Direct Actions**: Email copy with success/error feedback, a form that opens a prefilled draft in the visitor's email app, and direct GitHub links. Visitors review and send the email themselves; the site does not claim delivery.
 
 ---
 
@@ -41,6 +41,19 @@ cd portfolio
 npm run build
 npm run start
 ```
+
+### Browser check
+
+With the production server running on port 3001 and Playwright available to Node
+(directly or through `NODE_PATH`), run:
+
+```bash
+node scripts/check-portfolio.cjs http://localhost:3001
+```
+
+Checks terminal scrolling, project filters, dialog keyboard/focus behavior,
+clipboard feedback, encoded email drafts, theme persistence, mobile navigation,
+320px/390px layouts, and reduced motion. Screenshots go into `.next/`.
 
 ---
 

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Terminal as TerminalIcon, CornerDownLeft, Sparkles } from "lucide-react";
-import { PERSONAL_INFO } from "@/data/portfolioData";
+import { PERSONAL_INFO, PROJECTS } from "@/data/portfolioData";
 
 interface OutputLine {
   id: string;
@@ -38,14 +38,11 @@ const INITIAL_LINES: OutputLine[] = [
 export function TerminalPreview() {
   const [lines, setLines] = useState<OutputLine[]>(INITIAL_LINES);
   const [inputVal, setInputVal] = useState("");
-  const terminalEndRef = useRef<HTMLDivElement>(null);
-
-  const scrollToBottom = () => {
-    terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  const outputRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    scrollToBottom();
+    const output = outputRef.current;
+    if (output) output.scrollTop = output.scrollHeight;
   }, [lines]);
 
   const handleCommand = (cmd: string) => {
@@ -84,7 +81,7 @@ export function TerminalPreview() {
           {
             id: `${Date.now()}-1`,
             type: "response",
-            text: "1. [Systems] Huffman Lossless Compression (C++17, Bitwise I/O, FNV-1a Checksum)\n2. [DSA]     Bank & ATM Account Engine (C++, Doubly Linked List, CSV Database)\n3. [Assembly] Bare-Metal 8086 Suite (Traffic controller, VGA 320x200 graphics)\n4. [Algorithms] Binary Expression Tree Evaluator (Prefix, Infix, Postfix)\n5. [Game Dev] Raylib 2D Game Engine (C++, OpenGL, Delta-time physics)\n6. [Web & HCI] Panataanph Fitness App - Hackathon 2026 (React, TypeScript, Figma)\n7. [DSA]     Hash Table & Set Operations Engine (C++, Chaining, Set Theory)\n8. [DSA]     Stack & Queue DSA Suite (C++, Array + Linked-list implementations)\n9. [Systems] USB Bank Activity Monitoring System (C++, Audit Log, CSV)",
+            text: PROJECTS.map((project, index) => `${index + 1}. [${project.category}] ${project.title}`).join("\n"),
           },
         ];
         break;
@@ -153,7 +150,7 @@ export function TerminalPreview() {
       </div>
 
       {/* Terminal Output Area */}
-      <div className="p-4 sm:p-5 max-h-72 overflow-y-auto space-y-2 bg-zinc-950 font-mono">
+      <div ref={outputRef} role="log" aria-label="Terminal output" className="p-4 sm:p-5 max-h-72 overflow-y-auto space-y-2 bg-zinc-950 font-mono">
         {lines.map((line) => (
           <div
             key={line.id}
@@ -170,7 +167,6 @@ export function TerminalPreview() {
             {line.text}
           </div>
         ))}
-        <div ref={terminalEndRef} />
       </div>
 
       {/* Interactive Input Prompt */}
@@ -178,6 +174,7 @@ export function TerminalPreview() {
         <span className="text-emerald-400 font-bold">$</span>
         <input
           type="text"
+          aria-label="Terminal command"
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value)}
           onKeyDown={handleKeyDown}

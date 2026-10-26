@@ -5,22 +5,21 @@ import { Mail, Copy, Check, Send, ArrowUpRight, MessageSquare } from "lucide-rea
 import { GithubIcon } from "@/components/icons/GithubIcon";
 import { LinkedinIcon } from "@/components/icons/LinkedinIcon";
 import { PERSONAL_INFO } from "@/data/portfolioData";
+import { useClipboard } from "./useClipboard";
 
 export function Contact() {
-  const [copied, setCopied] = useState(false);
+  const { copy: handleCopyEmail, status: copyStatus } = useClipboard(PERSONAL_INFO.email);
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
 
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(PERSONAL_INFO.email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.email || !formData.message) return;
-    // Client-side simulation of message submission
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) return;
+    const subject = encodeURIComponent(`Portfolio inquiry from ${formData.name.trim()}`);
+    const body = encodeURIComponent(
+      `Name: ${formData.name.trim()}\nEmail: ${formData.email.trim()}\n\n${formData.message.trim()}`
+    );
+    window.location.href = `mailto:${PERSONAL_INFO.email}?subject=${subject}&body=${body}`;
     setSubmitted(true);
   };
 
@@ -66,15 +65,19 @@ export function Contact() {
                   onClick={handleCopyEmail}
                   className="p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors shrink-0"
                   title="Copy email address"
-                  aria-label="Copy email address"
+                  aria-label={copyStatus === "copied" ? "Email copied" : "Copy email address"}
                 >
-                  {copied ? (
+                  {copyStatus === "copied" ? (
                     <Check className="w-4 h-4 text-emerald-500" />
                   ) : (
                     <Copy className="w-4 h-4" />
                   )}
                 </button>
               </div>
+
+              <p role="status" className="text-xs text-zinc-500 dark:text-zinc-400">
+                {copyStatus === "error" ? "Could not copy. Select the email address or use the email link." : copyStatus === "copied" ? "Email address copied." : ""}
+              </p>
 
               {/* GitHub Card */}
               <a
@@ -126,42 +129,45 @@ export function Contact() {
           <div className="md:col-span-7">
             <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800/90 bg-white dark:bg-zinc-900/40 p-6 sm:p-8 shadow-xs">
               <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100 mb-1">
-                Send a Message
+                Write a Message
               </h3>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-6">
-                Fill out the quick form below or reach me directly at my email.
+                Prepare an email draft, then review and send it in your email app.
               </p>
 
               {submitted ? (
-                <div className="p-6 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-center space-y-2">
+                <div role="status" className="p-6 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-center space-y-2">
                   <div className="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto">
                     <Check className="w-5 h-5" />
                   </div>
                   <h4 className="text-sm font-bold text-emerald-800 dark:text-emerald-300">
-                    Message Sent
+                    Email Draft Prepared
                   </h4>
                   <p className="text-xs text-emerald-700 dark:text-emerald-400 max-w-sm mx-auto">
-                    Thank you! Your message has been prepared. You can also reach me directly at{" "}
-                    <span className="font-mono">{PERSONAL_INFO.email}</span>.
+                    Finish sending in your email app. If it did not open, email{" "}
+                    <a href={`mailto:${PERSONAL_INFO.email}`} className="font-mono underline">{PERSONAL_INFO.email}</a>{" "}
+                    directly. Your message stays here so you can edit or copy it.
                   </p>
                   <button
                     onClick={() => {
                       setSubmitted(false);
-                      setFormData({ name: "", email: "", message: "" });
                     }}
                     className="mt-3 text-xs font-medium text-emerald-700 dark:text-emerald-400 underline cursor-pointer"
                   >
-                    Send another message
+                    Edit message
                   </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-mono text-zinc-600 dark:text-zinc-400 mb-1.5">
+                      <label htmlFor="contact-name" className="block text-xs font-mono text-zinc-600 dark:text-zinc-400 mb-1.5">
                         Your Name
                       </label>
                       <input
+                        id="contact-name"
+                        name="name"
+                        autoComplete="name"
                         type="text"
                         required
                         value={formData.name}
@@ -171,10 +177,13 @@ export function Contact() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-mono text-zinc-600 dark:text-zinc-400 mb-1.5">
+                      <label htmlFor="contact-email" className="block text-xs font-mono text-zinc-600 dark:text-zinc-400 mb-1.5">
                         Your Email
                       </label>
                       <input
+                        id="contact-email"
+                        name="email"
+                        autoComplete="email"
                         type="email"
                         required
                         value={formData.email}
@@ -186,10 +195,12 @@ export function Contact() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono text-zinc-600 dark:text-zinc-400 mb-1.5">
+                    <label htmlFor="contact-message" className="block text-xs font-mono text-zinc-600 dark:text-zinc-400 mb-1.5">
                       Message
                     </label>
                     <textarea
+                      id="contact-message"
+                      name="message"
                       required
                       rows={4}
                       value={formData.message}
@@ -204,7 +215,7 @@ export function Contact() {
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 hover:bg-zinc-800 dark:hover:bg-zinc-200 text-sm font-medium transition-colors shadow-xs"
                   >
                     <Send className="w-3.5 h-3.5" />
-                    Send Message
+                    Open Email Draft
                   </button>
                 </form>
               )}

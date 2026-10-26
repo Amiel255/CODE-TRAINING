@@ -1,44 +1,57 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { X, ExternalLink, Copy, Check, Terminal, Layers } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { X, ExternalLink, Copy, Check, Terminal } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
 import { Project } from "@/data/portfolioData";
+import { useClipboard } from "./useClipboard";
 
 interface ProjectModalProps {
-  project: Project | null;
+  project: Project;
   onClose: () => void;
 }
 
 export function ProjectModal({ project, onClose }: ProjectModalProps) {
-  const [copiedCode, setCopiedCode] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const { copy: handleCopyCode, status: copyStatus } = useClipboard(project.codeSnippet?.code ?? "");
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    if (project) {
-      document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", handleKeyDown);
-    }
+    const dialog = dialogRef.current;
+    const previousFocus = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    dialog?.showModal();
+    document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = "unset";
-      window.removeEventListener("keydown", handleKeyDown);
+      dialog?.close();
+      document.body.style.overflow = previousOverflow;
+      if (previousFocus instanceof HTMLElement) previousFocus.focus({ preventScroll: true });
     };
-  }, [project, onClose]);
-
-  if (!project) return null;
-
-  const handleCopyCode = () => {
-    if (project.codeSnippet?.code) {
-      navigator.clipboard.writeText(project.codeSnippet.code);
-      setCopiedCode(true);
-      setTimeout(() => setCopiedCode(false), 2000);
-    }
-  };
+  }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
+    <dialog
+      ref={dialogRef}
+      aria-labelledby="project-dialog-title"
+      onCancel={onClose}
+      onClose={onClose}
+      onKeyDown={(e) => {
+        if (e.key !== "Tab") return;
+        const controls = e.currentTarget.querySelectorAll<HTMLElement>("button, a[href]");
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      className="fixed inset-0 m-0 h-full max-h-none w-full max-w-none bg-transparent p-4 sm:p-6 open:flex items-center justify-center backdrop:bg-black/70 backdrop:backdrop-blur-sm"
+    >
       <div
         className="relative w-full max-w-2xl max-h-[90vh] bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-2xl flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
@@ -52,7 +65,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
               </span>
               <span className="text-xs text-zinc-400 font-mono">{project.period}</span>
             </div>
-            <h3 className="text-lg sm:text-xl font-bold text-zinc-900 dark:text-zinc-100">
+            <h3 id="project-dialog-title" className="text-lg sm:text-xl font-bold text-zinc-900 dark:text-zinc-100">
               {project.title}
             </h3>
             <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">
@@ -141,7 +154,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
                   onClick={handleCopyCode}
                   className="flex items-center gap-1 text-xs font-mono text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
                 >
-                  {copiedCode ? (
+                  {copyStatus === "copied" ? (
                     <>
                       <Check className="w-3.5 h-3.5 text-emerald-500" />
                       <span>Copied</span>
@@ -154,6 +167,9 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
                   )}
                 </button>
               </div>
+              <p role="status" className="text-xs text-zinc-500 dark:text-zinc-400">
+                {copyStatus === "error" ? "Could not copy. Select the snippet to copy it manually." : copyStatus === "copied" ? "Code snippet copied." : ""}
+              </p>
               <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-4 font-mono text-xs overflow-x-auto text-zinc-200">
                 <pre>{project.codeSnippet.code}</pre>
               </div>
@@ -188,6 +204,6 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
           </div>
         </div>
       </div>
-    </div>
+    </dialog>
   );
 }

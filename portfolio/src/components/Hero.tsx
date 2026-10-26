@@ -1,20 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowDown, Mail, Copy, Check, ExternalLink } from "lucide-react";
+import { ArrowDown, Mail, Copy, Check } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
 import { LinkedinIcon } from "@/components/icons/LinkedinIcon";
 import { PERSONAL_INFO } from "@/data/portfolioData";
 import { TerminalPreview } from "./TerminalPreview";
+import { useClipboard } from "./useClipboard";
 
 export function Hero() {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(PERSONAL_INFO.email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const { copy: handleCopyEmail, status: copyStatus } = useClipboard(PERSONAL_INFO.email);
 
   return (
     <section id="about" className="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
@@ -111,7 +105,7 @@ export function Hero() {
                 className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-800/80 text-sm font-medium text-zinc-700 dark:text-zinc-200 transition-colors"
                 title="Copy email address"
               >
-                {copied ? (
+                {copyStatus === "copied" ? (
                   <>
                     <Check className="w-3.5 h-3.5 text-emerald-500" />
                     <span>Copied!</span>
@@ -154,6 +148,9 @@ export function Hero() {
                 <Mail className="w-4 h-4" />
               </a>
             </div>
+            <p role="status" className="text-xs text-zinc-500 dark:text-zinc-400">
+              {copyStatus === "error" ? "Could not copy. Use the email link to get in touch." : copyStatus === "copied" ? "Email address copied." : ""}
+            </p>
           </div>
 
           {/* Interactive Terminal / Code Column */}

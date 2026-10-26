@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { PROJECTS, Project } from "@/data/portfolioData";
 import { ProjectModal } from "./ProjectModal";
-import { ArrowUpRight, Code2, Cpu, GitBranch, Terminal } from "lucide-react";
+import { ArrowUpRight, Code2, Terminal } from "lucide-react";
 
 export function Projects() {
   const [activeCategory, setActiveCategory] = useState<string>("All");
@@ -41,6 +41,7 @@ export function Projects() {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
+                aria-pressed={activeCategory === cat}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                   activeCategory === cat
                     ? "bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white shadow-xs"
@@ -115,6 +116,8 @@ export function Projects() {
               <div className="px-6 py-3.5 bg-zinc-50/60 dark:bg-zinc-900/60 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs">
                 <button
                   onClick={() => setSelectedProject(project)}
+                  aria-label={`Inspect architecture: ${project.title}`}
+                  aria-haspopup="dialog"
                   className="font-medium text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
                   <Terminal className="w-3.5 h-3.5 text-zinc-400" />
@@ -138,10 +141,13 @@ export function Projects() {
       </div>
 
       {/* Detail Modal */}
-      <ProjectModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
+      {selectedProject && (
+        <ProjectModal
+          key={selectedProject.id}
+          project={selectedProject}
+          onClose={() => setSelectedProject(null)}
+        />
+      )}
     </section>
   );
 }
