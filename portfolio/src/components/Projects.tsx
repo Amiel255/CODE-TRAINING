@@ -3,18 +3,20 @@
 import { useState } from "react";
 import { PROJECTS, Project } from "@/data/portfolioData";
 import { ProjectModal } from "./ProjectModal";
-import { ArrowUpRight, Code2, Terminal } from "lucide-react";
+import { ArrowUpRight, Code2, Search, Terminal } from "lucide-react";
 
 export function Projects() {
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [query, setQuery] = useState("");
 
   const categories = ["All", ...new Set(PROJECTS.map((project) => project.category))];
 
-  const filteredProjects =
-    activeCategory === "All"
-      ? PROJECTS
-      : PROJECTS.filter((p) => p.category === activeCategory);
+  const search = query.trim().toLowerCase();
+  const filteredProjects = PROJECTS.filter((project) =>
+    (activeCategory === "All" || project.category === activeCategory) &&
+    [project.title, project.tagline, ...project.techStack].some((text) => text.toLowerCase().includes(search))
+  );
 
   return (
     <section id="projects" className="py-20 border-t border-zinc-200/80 dark:border-zinc-800/80">
@@ -42,7 +44,7 @@ export function Projects() {
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
                 aria-pressed={activeCategory === cat}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                className={`project-filter px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                   activeCategory === cat
                     ? "bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white shadow-xs"
                     : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
@@ -54,17 +56,26 @@ export function Projects() {
           </div>
         </div>
 
+        <div className="project-tools">
+          <div className="project-search">
+            <Search size={16} aria-hidden="true" />
+            <input type="search" aria-label="Search projects" placeholder="Search projects or technologies…" value={query} onChange={(e) => setQuery(e.target.value)} />
+          </div>
+          <p role="status">{filteredProjects.length} project{filteredProjects.length === 1 ? "" : "s"}</p>
+        </div>
+
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filteredProjects.map((project) => (
             <div
               key={project.id}
-              className="group relative rounded-2xl border border-zinc-200 dark:border-zinc-800/90 bg-white dark:bg-zinc-900/40 hover:bg-zinc-50/50 dark:hover:bg-zinc-900/80 transition-all duration-200 flex flex-col justify-between overflow-hidden hover:border-zinc-300 dark:hover:border-zinc-700 shadow-xs"
+              data-category={project.category}
+              className="project-card group relative rounded-2xl border border-zinc-200 dark:border-zinc-800/90 bg-white dark:bg-zinc-900/40 hover:bg-zinc-50/50 dark:hover:bg-zinc-900/80 transition-all duration-200 flex flex-col justify-between overflow-hidden hover:border-zinc-300 dark:hover:border-zinc-700 shadow-xs"
             >
               {/* Card Top */}
               <div className="p-6">
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono uppercase tracking-wider bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-200/60 dark:border-zinc-700/60">
+                  <span className="project-category px-2.5 py-0.5 rounded-md text-[11px] font-mono uppercase tracking-wider bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-200/60 dark:border-zinc-700/60">
                     {project.category}
                   </span>
                   <span className="text-xs font-mono text-zinc-600 dark:text-zinc-400">
@@ -138,6 +149,12 @@ export function Projects() {
             </div>
           ))}
         </div>
+        {filteredProjects.length === 0 && (
+          <div className="project-empty">
+            <p>No projects match your search.</p>
+            <button type="button" onClick={() => { setQuery(""); setActiveCategory("All"); }}>Clear filters</button>
+          </div>
+        )}
       </div>
 
       {/* Detail Modal */}

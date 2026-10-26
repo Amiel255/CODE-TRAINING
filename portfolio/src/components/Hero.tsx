@@ -6,14 +6,15 @@ import { LinkedinIcon } from "@/components/icons/LinkedinIcon";
 import { PERSONAL_INFO, PROJECTS } from "@/data/portfolioData";
 import { TerminalPreview } from "./TerminalPreview";
 import { useClipboard } from "./useClipboard";
+import { FocusScene } from "./FocusScene";
 
 export function Hero() {
   const { copy: handleCopyEmail, status: copyStatus } = useClipboard(PERSONAL_INFO.email);
 
   return (
-    <section id="about" className="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
+    <section id="about" className="hero-section relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
       {/* Subtle background grid pattern */}
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+      <div aria-hidden="true" className="hero-ambient" />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start">
@@ -30,7 +31,7 @@ export function Hero() {
 
             {/* Headline */}
             <div className="space-y-2">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+              <h1 className="hero-title text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
                 {PERSONAL_INFO.name}
               </h1>
               <p className="text-lg sm:text-xl font-medium text-zinc-600 dark:text-zinc-400">
@@ -98,7 +99,7 @@ export function Hero() {
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
                 href="#projects"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 hover:bg-zinc-800 dark:hover:bg-zinc-200 text-sm font-medium transition-all shadow-xs"
+                className="accent-button inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 hover:bg-zinc-800 dark:hover:bg-zinc-200 text-sm font-medium transition-all shadow-xs"
               >
                 View Projects
                 <ArrowDown className="w-3.5 h-3.5" />
@@ -158,7 +159,8 @@ export function Hero() {
           </div>
 
           {/* Interactive Terminal / Code Column */}
-          <div className="lg:col-span-5 w-full">
+          <div className="hero-playground lg:col-span-5 w-full space-y-5">
+            <FocusScene />
             <TerminalPreview />
           </div>
         </div>

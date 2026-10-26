@@ -1,13 +1,15 @@
 # Amiel Keith Padilla — Developer Portfolio
 
-A clean, modern, minimal portfolio site built with **Next.js 16 (App Router)** and **Tailwind CSS v4**, designed with a refined Vercel/Linear aesthetic.
+A minimal portfolio built with **Next.js 16 (App Router)** and **Tailwind CSS v4**, using a calm mint/teal and muted violet palette.
 
 ---
 
 ## ✨ Features & Highlights
 
-- **Aesthetic**: Minimalist monochromatic and slate palette with subtle borders, glowing status indicators, and clean typography.
+- **Aesthetic**: Soft tinted surfaces, restrained mint/violet accents, gradient typography, and responsive hover/focus feedback.
 - **Dark / Light Mode**: Seamless theme toggle syncing with system preferences and local storage persistence.
+- **Interactive 3D Focus Card**: CSS layers with mouse tilt, selectable Systems/Security/Web focus areas, and an animation pause control. Reduced-motion settings disable floating and pointer tilt. No 3D dependency required.
+- **Project Discovery & Navigation**: Search titles, taglines, or technologies alongside category filters; clear empty results with one action. Navigation highlights the current section, with a CSS reading-progress line in supporting browsers.
 - **Interactive Terminal**: Unix/DOS-inspired interactive CLI terminal preview allowing visitors to run commands (`help`, `projects`, `skills`, `about`, `contact`) or click quick pills.
 - **Featured Systems Projects**: Detailed showcase of authentic academic projects:
   - **Lossless Huffman Compression Engine** (C++17, bitwise streams, FNV-1a 64-bit verification)
@@ -20,7 +22,7 @@ A clean, modern, minimal portfolio site built with **Next.js 16 (App Router)** a
 - **Interactive Code Inspector Modal**: Inspect architecture details, metrics, and formatted source code snippets with 1-click copy.
 - **Technical Skills Matrix**: Categorized breakdown across Languages, Systems & Architecture, Data Structures & Algorithms, and Modern Web.
 - **Education & Milestones**: Formal BSIT academic journey, coursework, and focus areas.
-- **LinkedIn Background**: GDG on Campus TUP Manila leadership roles, TUP BSIT education (2025–2029), listed security/AI skills, and certifications from the supplied profile PDF. Certificate issuers and dates are omitted because the export does not include them.
+- **LinkedIn Background**: GDG on Campus TUP Manila leadership roles, TUP BSIT education (2025–2029), and listed security/AI skills from the supplied profile PDF. Original DataCamp certificate PDFs provide completion dates, course lengths, certificate numbers, and viewable proof for Introduction to Python and AI Ethics.
 - **Contact & Direct Actions**: Email copy with success/error feedback, a form that opens a prefilled draft in the visitor's email app, and direct GitHub links. Visitors review and send the email themselves; the site does not claim delivery.
 
 ---

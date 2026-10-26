@@ -11,6 +11,7 @@ import { PERSONAL_INFO } from "@/data/portfolioData";
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("about");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,6 +19,15 @@ export function Navbar() {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.find((entry) => entry.isIntersecting);
+      if (visible) setActiveSection(visible.target.id);
+    }, { rootMargin: "-20% 0px -65% 0px" });
+    document.querySelectorAll("main section[id]").forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
   }, []);
 
   const navLinks = [
@@ -37,6 +47,7 @@ export function Navbar() {
           : "bg-transparent border-b border-transparent"
       }`}
     >
+      <span aria-hidden="true" className="reading-progress" />
       <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         {/* Brand Monogram */}
         <Link
@@ -57,7 +68,8 @@ export function Navbar() {
             <Link
               key={link.name}
               href={link.href}
-              className="px-3 py-1.5 rounded-md text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors"
+              aria-current={activeSection === link.href.slice(1) ? "location" : undefined}
+              className="nav-link px-3 py-1.5 rounded-md text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors"
             >
               {link.name}
             </Link>
@@ -92,7 +104,7 @@ export function Navbar() {
 
           <a
             href="#contact"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 text-xs font-medium transition-all shadow-xs"
+            className="accent-button hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 text-xs font-medium transition-all shadow-xs"
           >
             Contact
             <ArrowUpRight className="w-3.5 h-3.5" />
@@ -118,8 +130,9 @@ export function Navbar() {
             <Link
               key={link.name}
               href={link.href}
+              aria-current={activeSection === link.href.slice(1) ? "location" : undefined}
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-md text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900"
+              className="nav-link block px-3 py-2 rounded-md text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900"
             >
               {link.name}
             </Link>

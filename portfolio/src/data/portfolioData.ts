@@ -687,7 +687,24 @@ export const EXPERIENCE_DATA = [
   },
 ];
 
-export const CERTIFICATIONS = ["Introduction to Python", "AI Ethics"];
+export const CERTIFICATIONS = [
+  {
+    name: "Introduction to Python",
+    issuer: "DataCamp",
+    completedOn: "September 18, 2025",
+    duration: "4 hours",
+    certificateNumber: "42,790,337",
+    certificateUrl: "/certificates/introduction-to-python.pdf",
+  },
+  {
+    name: "AI Ethics",
+    issuer: "DataCamp",
+    completedOn: "September 3, 2025",
+    duration: "1 hour",
+    certificateNumber: "42,861,402",
+    certificateUrl: "/certificates/ai-ethics.pdf",
+  },
+];
 
 export const EDUCATION_DATA = [
   {

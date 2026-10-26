@@ -19,6 +19,20 @@ const { chromium } = require("playwright");
     await page.goto(process.argv[2] || "http://localhost:3001", { waitUntil: "networkidle" });
     await page.screenshot({ path: ".next/check-desktop.png" });
     assert.equal(await page.evaluate(() => window.scrollY), 0, "Terminal must not scroll the page on load");
+    const focusAreas = page.getByRole("group", { name: "Focus area" });
+    await focusAreas.getByRole("button", { name: "Security", exact: true }).click();
+    await page.getByText("Privacy · risk · responsible AI", { exact: true }).waitFor();
+    await focusAreas.getByRole("button", { name: "Web", exact: true }).click();
+    await page.getByText("React · TypeScript · HCI", { exact: true }).waitFor();
+    await focusAreas.getByRole("button", { name: "Systems", exact: true }).click();
+    const stage = page.locator(".scene-stage");
+    await stage.hover({ position: { x: 40, y: 40 } });
+    assert.ok(await stage.evaluate((element) => element.style.getPropertyValue("--tilt-x")), "Pointer must tilt the 3D scene");
+    await page.getByRole("button", { name: "Pause 3D animation" }).click();
+    assert.equal(await page.locator(".scene-float").evaluate((element) => getComputedStyle(element).animationPlayState), "paused");
+    await stage.hover({ position: { x: 60, y: 60 } });
+    assert.equal(await stage.evaluate((element) => element.style.getPropertyValue("--tilt-x")), "", "Paused scene must ignore pointer motion");
+    await page.getByRole("button", { name: "Resume 3D animation" }).click();
     const titles = await page.locator("#projects h3").allTextContents();
     assert.equal(new Set(titles).size, titles.length, "Project cards must be distinct");
     for (const title of ["Procedural 3D Maze Explorer", "Arithmetic Quiz & Leaderboard", "Sorted Student Records Manager", "Python JSON Records Manager"]) {
@@ -37,6 +51,22 @@ const { chromium } = require("playwright");
     for (const name of ["Introduction to Python", "AI Ethics"]) {
       await page.locator("#education").getByText(name, { exact: true }).waitFor();
     }
+    for (const [name, date, duration, number, href] of [
+      ["Introduction to Python", "September 18, 2025", "4 hours", "42,790,337", "/certificates/introduction-to-python.pdf"],
+      ["AI Ethics", "September 3, 2025", "1 hour", "42,861,402", "/certificates/ai-ethics.pdf"],
+    ]) {
+      const link = page.getByRole("link", { name: `View ${name} certificate (PDF)`, exact: true });
+      assert.equal(await link.getAttribute("href"), href);
+      const card = link.locator("..");
+      await card.getByText("DataCamp", { exact: true }).waitFor();
+      await card.getByText(`Completed ${date} · ${duration}`, { exact: true }).waitFor();
+      await card.getByText(`Certificate #${number}`, { exact: true }).waitFor();
+      const response = await page.request.get(new URL(href, page.url()).href);
+      assert.equal(response.status(), 200, `Certificate must be served: ${name}`);
+      assert.ok(response.headers()["content-type"].includes("application/pdf"));
+      assert.equal((await response.body()).subarray(0, 4).toString(), "%PDF");
+    }
+    await page.locator("#education").getByRole("heading", { name: "Certifications", exact: true }).locator("..").screenshot({ path: ".next/check-certificates-desktop.png" });
     for (const skill of ["Privacy and Data Protection", "Risk Assessment and Impact Evaluation", "Bias and Fairness Awareness"]) {
       await page.locator("#skills").getByText(skill, { exact: true }).waitFor();
     }
@@ -46,6 +76,20 @@ const { chromium } = require("playwright");
     const output = await page.getByRole("log").innerText();
     titles.forEach((title) => assert.ok(output.includes(title), `Terminal missing ${title}`));
     assert.equal(await page.evaluate(() => window.scrollY), 0, "Terminal commands must keep page position");
+
+    const search = page.getByRole("searchbox", { name: "Search projects" });
+    await search.fill("  HUFFMAN  ");
+    assert.deepEqual(await page.locator("#projects h3").allTextContents(), ["Huffman Lossless Compression Engine"]);
+    await search.fill("Python");
+    assert.ok((await page.locator("#projects h3").allTextContents()).includes("Arithmetic Quiz & Leaderboard"), "Search must include technologies");
+    await page.getByRole("button", { name: "Assembly", exact: true }).click();
+    await page.getByText("No projects match your search.", { exact: true }).waitFor();
+    await page.getByRole("button", { name: "Clear filters", exact: true }).click();
+    assert.equal(await search.inputValue(), "");
+    assert.equal(await page.locator("#projects h3").count(), titles.length);
+
+    await page.evaluate(() => window.scrollTo({ top: document.getElementById("projects").offsetTop - 80, behavior: "instant" }));
+    await page.screenshot({ path: ".next/check-projects.png" });
 
     await page.getByRole("button", { name: "Web & HCI", exact: true }).click();
     assert.deepEqual(await page.locator("#projects h3").allTextContents(), [
@@ -128,6 +172,9 @@ const { chromium } = require("playwright");
     const theme = await page.evaluate(() => localStorage.getItem("theme"));
     await page.reload({ waitUntil: "networkidle" });
     assert.equal(await page.evaluate(() => document.documentElement.classList.contains("dark")), theme === "dark");
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+    await page.waitForFunction(() => document.querySelector('header a[href="#about"][aria-current="location"]'));
+    await page.screenshot({ path: ".next/check-dark-desktop.png" });
     for (const width of [1440, 1024, 768, 390, 320]) {
       await page.setViewportSize({ width, height: 844 });
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `Overflow at ${width}px`);
@@ -142,10 +189,15 @@ const { chromium } = require("playwright");
       const top = document.getElementById("experience").getBoundingClientRect().top;
       return top >= 64 && top < 100;
     });
+    await page.waitForFunction(() => document.querySelector('header a[href="#experience"][aria-current="location"]'));
     await page.locator("#experience").screenshot({ path: ".next/check-experience-mobile.png" });
+    await page.locator("#education").getByRole("heading", { name: "Certifications", exact: true }).locator("..").screenshot({ path: ".next/check-certificates-mobile.png" });
     assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior), "auto");
+    assert.equal(await page.locator(".scene-float").evaluate((element) => getComputedStyle(element).animationName), "none");
+    await stage.hover({ position: { x: 40, y: 40 } });
+    assert.equal(await stage.evaluate((element) => element.style.getPropertyValue("--tilt-x")), "", "Reduced motion must disable pointer tilt");
     assert.deepEqual(errors, [], "Browser runtime errors");
-    console.log("PASS: LinkedIn profile details, experience navigation, desktop/tablet/mobile layout, distinct project cards, source links, terminal, filters, dialog focus, clipboard, email draft, theme, reduced motion");
+    console.log("PASS: 3D focus controls, pointer tilt/pause/reduced motion, project search/reset, active navigation, certificates, profile, responsive layout, dialogs, clipboard, email draft, themes");
   } finally {
     await browser.close();
   }
