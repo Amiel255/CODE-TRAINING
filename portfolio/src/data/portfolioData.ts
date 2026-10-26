@@ -2,7 +2,7 @@ export interface Project {
   id: string;
   title: string;
   tagline: string;
-  category: "Systems & C++" | "Assembly" | "Algorithms & DSA" | "Game Dev & Graphics";
+  category: "Systems & C++" | "Assembly" | "Algorithms & DSA" | "Game Dev & Graphics" | "Web & HCI";
   period: string;
   description: string;
   highlights: string[];
@@ -248,6 +248,173 @@ int main() {
     githubUrl: "https://github.com/Amiel255/VSCODE-RAYLIB",
     slug: "raylib-game-engine",
   },
+  {
+    id: "panaataan-hackathon",
+    title: "Panataanph Fitness App — Hackathon 2026",
+    tagline: "Condition-aware fitness & wellness HCI prototype (React + Figma)",
+    category: "Web & HCI",
+    period: "2026",
+    description:
+      "A full-featured HCI prototype and interactive wireframe for a mobile health & fitness app built during the Panataanph Hackathon 2026. Designed for accessibility-first, condition-aware personalization — targeting users with chronic conditions (asthma, joint pain, heart conditions) with calm, low-cognitive-load interfaces.",
+    highlights: [
+      "12+ mobile screens: Onboarding, Home, Activity Tracker, Weekly Planner, Progress, Wellness, Smart Route, Sync Center",
+      "Condition-based personalization engine routing users to appropriate exercise plans based on health profile",
+      "React Router browser-based SPA routing with PhoneShell wrapper for authentic mobile viewport simulation",
+      "Real-time activity state management with Zustand-style activityStore, GPX export for route tracking, and emergency modal system",
+      "Design system built on shadcn/ui, Radix UI primitives, MUI Material, and Tailwind CSS with calm sage/warm beige theme",
+    ],
+    techStack: ["React", "TypeScript", "Vite", "Tailwind CSS", "Radix UI", "Figma", "React Router", "shadcn/ui"],
+    metrics: [
+      { label: "Screens", value: "12+ Flows" },
+      { label: "Design Tool", value: "Figma + Code" },
+      { label: "Stack", value: "React + TS" },
+    ],
+    codeSnippet: {
+      language: "tsx",
+      filename: "routes.ts",
+      code: `export const router = createBrowserRouter([
+  {
+    path: '/',
+    Component: PhoneShell,
+    children: [
+      { path: 'onboarding',         Component: OnboardingScreen },
+      { path: 'activities/setup',   Component: ActivitySetupScreen },
+      { path: 'activities/track',   Component: ActivityTrackerScreen },
+      { path: 'activities/route',   Component: SmartRouteScreen },
+      { path: 'home',               Component: HomeScreen },
+      { path: 'progress',           Component: ProgressScreen },
+      { path: 'wellness',           Component: WellnessScreen },
+      { path: 'profile',            Component: ProfileScreen },
+    ],
+  },
+]);`,
+    },
+    githubUrl: "https://github.com/strob3/panataanph-hackathon-2026",
+    slug: "panaataan-hackathon",
+  },
+  {
+    id: "hash-table-set-operations",
+    title: "Hash Table & Set Operations Engine",
+    tagline: "Chaining hash table & custom Set ADT with union, intersection, difference",
+    category: "Algorithms & DSA",
+    period: "2026",
+    description:
+      "Dual DSA machine problems implementing a chaining hash table (MP7) and a full abstract Set data type (MP8) from scratch in C++. Covers collision resolution via linked-list chaining and complete mathematical set algebra operations.",
+    highlights: [
+      "Hash table with modular hash function and separate chaining collision resolution using linked list nodes",
+      "Full Set ADT supporting union, intersection, difference, and subset operations with O(n²) worst-case bounds",
+      "Custom contains(), add(), remove() with duplicate-safe enforced membership invariants",
+    ],
+    techStack: ["C++", "Hash Tables", "Linked Lists", "Set Theory", "Abstract Data Types"],
+    metrics: [
+      { label: "Hash Strategy", value: "Chaining" },
+      { label: "Set Ops", value: "4 Operations" },
+      { label: "Collision", value: "Linked List" },
+    ],
+    codeSnippet: {
+      language: "cpp",
+      filename: "mp7 - PADILLA.cpp",
+      code: `class HashTable {
+private:
+    Node* table[SIZE];
+    int hashFunction(int key) {
+        return (key % SIZE + SIZE) % SIZE;
+    }
+public:
+    void insert(int key) {
+        int idx = hashFunction(key);
+        Node* newNode = new Node(key);
+        newNode->next = table[idx];
+        table[idx] = newNode; // prepend for O(1) insert
+    }
+};`,
+    },
+    githubUrl: "https://github.com/Amiel255/CODE-TRAINING/tree/main/DSA",
+    slug: "hash-table-set-operations",
+  },
+  {
+    id: "stack-queue-dsa",
+    title: "Stack & Queue Data Structures Suite",
+    tagline: "Dual array & linked-list implementations of Stacks and Queues",
+    category: "Algorithms & DSA",
+    period: "2026",
+    description:
+      "A comprehensive DSA machine problem implementing both Stack and Queue abstract data types twice — once using arrays with bounded capacity and once using dynamically allocated linked lists. Compares performance and memory tradeoffs between both strategies.",
+    highlights: [
+      "Array-based Stack (StackArray) and Linked-list Stack (StackList) with push/pop/peek operations and overflow/underflow guards",
+      "Array-based Queue (QueueArray) with circular indexing and Linked-list Queue (QueueList) with head-tail pointers",
+      "Side-by-side interface for comparing O(1) amortized array operations vs. dynamic memory linked-list operations",
+    ],
+    techStack: ["C++", "Stack ADT", "Queue ADT", "Linked Lists", "Array Structures"],
+    metrics: [
+      { label: "Implementations", value: "2 per ADT" },
+      { label: "Operations", value: "Push/Pop/Peek" },
+      { label: "Memory", value: "Static + Dynamic" },
+    ],
+    codeSnippet: {
+      language: "cpp",
+      filename: "mp4 - Padilla.cpp",
+      code: `// Array-based Stack — bounded capacity
+class StackArray {
+private:
+    int data[MAX];
+    int top;
+public:
+    void push(int x) {
+        if (isFull()) { cout << "Stack Overflow"; return; }
+        data[--top] = x;
+    }
+    void pop() {
+        if (isEmpty()) { cout << "Stack Underflow"; return; }
+        top++;
+    }
+};`,
+    },
+    githubUrl: "https://github.com/Amiel255/CODE-TRAINING/tree/main/DSA",
+    slug: "stack-queue-dsa",
+  },
+  {
+    id: "usb-activity-bank-system",
+    title: "USB Bank Activity Monitoring System",
+    tagline: "Enhanced ATM engine with activity log, session tracking & security audit",
+    category: "Systems & C++",
+    period: "2026",
+    description:
+      "An extended version of the banking DSA system featuring a full USB-style session activity monitor. Logs all account events (login, withdrawal, deposit, transfer) per session in a structured audit trail backed by a doubly linked list and CSV persistence.",
+    highlights: [
+      "Session-scoped event logging recording each action with timestamps in a doubly linked list audit node chain",
+      "Full CRUD account management with CSV database read/write sync across sessions",
+      "PIN security with masked input, failed attempt counters, and card lock after threshold exceeded",
+      "Activity report generation with formatted table output sorted by account and event type",
+    ],
+    techStack: ["C++", "Doubly Linked List", "File I/O", "CSV Engine", "Audit Logging"],
+    metrics: [
+      { label: "Code Size", value: "1,352 Lines" },
+      { label: "Data Structure", value: "Doubly Linked List" },
+      { label: "Persistence", value: "CSV Audit Log" },
+    ],
+    codeSnippet: {
+      language: "cpp",
+      filename: "USBactivity.cpp",
+      code: `struct Account {
+    string accountNumber;
+    string accountName;
+    string birthday;
+    string contactNumber;
+    long long balance;
+    string pin; // encrypted PIN
+};
+
+struct node {
+    Account data;
+    node *next;
+    node *prev;
+    node(Account x) : data(x), next(NULL), prev(NULL) {}
+};`,
+    },
+    githubUrl: "https://github.com/Amiel255/CODE-TRAINING/tree/main/DSA",
+    slug: "usb-activity-bank-system",
+  },
 ];
 
 export const SKILL_CATEGORIES = [
@@ -281,6 +448,8 @@ export const SKILL_CATEGORIES = [
       { name: "Huffman Trees", desc: "Lossless compression, frequency analysis, prefix codes" },
       { name: "Expression Trees", desc: "Syntax evaluation, operator precedence, tree traversals" },
       { name: "Linked Lists", desc: "Doubly linked with tail, singly linked, cycle detection" },
+      { name: "Hash Tables", desc: "Chaining collision resolution, modular hash functions, set operations" },
+      { name: "Stack & Queue ADTs", desc: "Array-based and linked-list-based with O(1) push/pop" },
       { name: "Search & Sort", desc: "Binary search, deterministic priority queues, heaps" },
     ],
   },
@@ -288,10 +457,11 @@ export const SKILL_CATEGORIES = [
     category: "Modern Web & Tools",
     description: "Developer tooling, frameworks, and deployment",
     skills: [
-      { name: "Next.js & React", desc: "App router, SSR/SSG, modern component architecture" },
-      { name: "Tailwind CSS", desc: "Utility-first design, minimal dark/light themes" },
+      { name: "React & TypeScript", desc: "Component architecture, hooks, SPA routing, Vite" },
+      { name: "Next.js & App Router", desc: "SSR/SSG, server components, Vercel deployment" },
+      { name: "Tailwind CSS & shadcn/ui", desc: "Utility-first design, accessible Radix UI primitives" },
+      { name: "Figma & HCI Design", desc: "Wireframing, prototyping, condition-aware UX design systems" },
       { name: "Git & GitHub", desc: "Version control, branching, repository management" },
-      { name: "VS Code & Terminal", desc: "Debugging, build tasks, PowerShell & Bash workflows" },
     ],
   },
 ];

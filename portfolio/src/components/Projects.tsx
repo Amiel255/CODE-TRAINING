@@ -9,7 +9,7 @@ export function Projects() {
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const categories = ["All", "Systems & C++", "Assembly", "Algorithms & DSA", "Game Dev & Graphics"];
+  const categories = ["All", "Systems & C++", "Assembly", "Algorithms & DSA", "Game Dev & Graphics", "Web & HCI"];
 
   const filteredProjects =
     activeCategory === "All"

@@ -56,7 +56,8 @@ export function Hero() {
                 "x86 Assembly",
                 "Lossless Compression",
                 "Data Structures",
-                "Next.js & React",
+                "React & TypeScript",
+                "Next.js",
               ].map((badge) => (
                 <span
                   key={badge}
@@ -71,7 +72,7 @@ export function Hero() {
             <div className="grid grid-cols-3 gap-3 pt-3 border-t border-zinc-200/60 dark:border-zinc-800/80">
               <div className="p-2.5 rounded-xl bg-zinc-50/70 dark:bg-zinc-900/40 border border-zinc-200/60 dark:border-zinc-800/60">
                 <div className="text-lg sm:text-xl font-bold font-mono text-zinc-900 dark:text-zinc-100">
-                  4+
+                  9+
                 </div>
                 <div className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
                   Systems & DSA Works

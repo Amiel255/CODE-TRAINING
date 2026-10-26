@@ -84,7 +84,7 @@ export function TerminalPreview() {
           {
             id: `${Date.now()}-1`,
             type: "response",
-            text: "1. [Systems] Huffman Lossless Compression (C++17, Bitwise I/O, FNV-1a Checksum)\n2. [DSA] Bank & ATM Account Engine (C++, Doubly Linked List, CSV Database)\n3. [Assembly] Bare-Metal 8086 Suite (Traffic controller, VGA 320x200 graphics)\n4. [Algorithms] Binary Expression Tree Evaluator (Prefix, Infix, Postfix)",
+            text: "1. [Systems] Huffman Lossless Compression (C++17, Bitwise I/O, FNV-1a Checksum)\n2. [DSA]     Bank & ATM Account Engine (C++, Doubly Linked List, CSV Database)\n3. [Assembly] Bare-Metal 8086 Suite (Traffic controller, VGA 320x200 graphics)\n4. [Algorithms] Binary Expression Tree Evaluator (Prefix, Infix, Postfix)\n5. [Game Dev] Raylib 2D Game Engine (C++, OpenGL, Delta-time physics)\n6. [Web & HCI] Panataanph Fitness App - Hackathon 2026 (React, TypeScript, Figma)\n7. [DSA]     Hash Table & Set Operations Engine (C++, Chaining, Set Theory)\n8. [DSA]     Stack & Queue DSA Suite (C++, Array + Linked-list implementations)\n9. [Systems] USB Bank Activity Monitoring System (C++, Audit Log, CSV)",
           },
         ];
         break;
